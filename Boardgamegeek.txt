@@ -1,0 +1,85 @@
+npm install codeceptjs puppeteer
+
+exports.config = {
+  tests: './*_test.js',
+  output: './output',
+  helpers: {
+    Puppeteer: {
+      url: 'https://www.boardgamegeek.com',
+      show: true,
+      windowSize: '1200x900'
+    }
+  },
+  include: {
+    I: './steps_file.js'
+  },
+  bootstrap: null,
+  mocha: {},
+  name: 'codeceptjs-tests',
+  plugins: {
+    allure: {}
+  }
+}
+Feature('Boardgame Search');
+
+Scenario('Search for Harry Potter and the Sorcerer\'s Stone Trivia Game', ({ I }) => {
+  I.amOnPage('https://www.boardgamegeek.com/advsearch/boardgame');
+  I.fillField('Title', 'Harry Potter and the Sorcerer\'s Stone Trivia Game');
+  I.fillField('Year Published Minimum', '1999');
+  I.fillField('Year Published Maximum', '2000');
+  I.selectOption('Min Playing Time', '15 minutes');
+  I.selectOption('Max Playing Time', '1.5 hours');
+  I.click('Submit');
+  I.see('Harry Potter and the Sorcerer\'s Stone Trivia Game (2000)', 'a');
+  I.say('Link displayed: Harry Potter and the Sorcerer\'s Stone Trivia Game (2000)');
+});
+Feature('Signup Form');
+
+Scenario('Fill out the signup form', ({ I }) => {
+  I.amOnPage('https://marksheet.io/html-forms.html');
+  I.seeElement('form');
+  I.checkOption('Miss');
+  I.fillField('First name', 'John');
+  I.fillField('Last name', 'Smith');
+  I.fillField('Email', 'john.smith@test.com');
+  I.fillField('Phone number', '555-5555');
+  I.fillField('Password', 'password');
+  I.fillField('Confirm your password', 'password');
+  I.selectOption('Country', 'United States');
+  I.checkOption('I agree to the terms and conditions');
+  I.click('Sign Up');
+  I.seeInCurrentUrl('/signup');
+  I.see('403');
+});
+Feature('Cupcake Ipsum');
+
+Scenario('Generate Cupcake Ipsum text', ({ I }) => {
+  I.amOnPage('http://www.cupcakeipsum.com');
+  I.see('Cupcake Ipsum - Sugar-coated Lorem Ipsum Generator');
+  I.seeInField('Paragraphs', '5');
+  I.checkOption('Short');
+  I.checkOption('Start with "Cupcake ipsum dolor sit amet"');
+  I.seeElement('span', 'Cupcake ipsum dolor sit amet');
+  I.dontSee('Copy to Clipboard');
+  I.click('Generate');
+  I.seeNumberOfVisibleElements('span', 2);
+});
+Feature('OrangeHRM Login');
+
+Scenario('Login and navigate to Admin section', ({ I }) => {
+  I.amOnPage('https://opensource-demo.orangehrmlive.com');
+  I.fillField('Username', 'Admin');
+  I.fillField('Password', 'admin123');
+  I.click('Login');
+  I.seeInCurrentUrl('/dashboard');
+  I.click('Admin');
+  I.see('Records Found');
+  I.say('Records Found: ' + I.grabTextFrom('#resultTable'));
+  I.click('Profile');
+  I.see('About');
+  I.see('Support');
+  I.see('Change Password');
+  I.see('Logout');
+  I.click('Logout');
+  I.seeInCurrentUrl('/auth/login');
+});
