@@ -1,0 +1,19 @@
+Test Scenario: Home Page Browsing
+Concurrent Users: 100
+Page Load Time: 2.5 seconds
+Throughput: 40 requests/second
+Error Rate: 0%
+
+Test Scenario: Search and Navigation
+Concurrent Users: 200
+Search Query Response Time: 1.8 seconds
+Page Navigation Response Time: 2.1 seconds
+Throughput: 35 requests/second
+Error Rate: 1% (2 errors)
+
+Test Scenario: Article Reading
+Concurrent Users: 100
+Article Load Time: 2.3 seconds
+Throughput: 30 requests/second
+Error Rate: 0%
+
